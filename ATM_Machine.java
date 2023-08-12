@@ -3,8 +3,8 @@ package CodeSoftProject;
 import java.util.Scanner;
 
 interface ATM{
-    double withdrawing();
-    double depositing(double amount);
+    void withdrawing(double amount);
+    void depositing(double amount);
     void checkingBalance();
 }
 
@@ -13,25 +13,22 @@ class userAccount implements ATM{
     double value = 0;
 
     @Override
-    public double withdrawing() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter Amount to withdraw in your account: ");
-        double withrow = sc.nextInt();
-        if (withrow<=value){
-            value = value - withrow;
-            System.out.println("Successfully Withdraw amount of "+withrow);
+    public void withdrawing(double amount) {
+        if (amount<=value){
+            value = value - amount;
+            System.out.println("Successfully Withdraw amount of "+amount);
             System.out.println("Thank You...");
         }else {
             System.out.println("You have not sufficient balance in your account for withdrawal...");
             System.out.println("Thank You...");
         }
-        return value;
     }
 
     @Override
-    public double depositing(double amount) {
+    public void depositing(double amount) {
          value = value + amount;
-         return value;
+        System.out.println("Successfully Deposit "+amount+" Amount in your Account...");
+        System.out.println("Thank You...");
     }
 
     @Override
@@ -56,18 +53,16 @@ public class ATM_Machine extends userAccount {
                     System.out.print("Enter Deposit Amount: ");
                     amount = sc.nextDouble();
                     am.depositing(amount);
-                    System.out.println("Successfully Deposit your Amount in your Account...");
-                    System.out.println("Thank You...");
                 }
                 case 2 -> {
-                    am.withdrawing();
+                    System.out.print("Enter Amount to withdraw in your account: ");
+                    double withrow = sc.nextInt();
+                    am.withdrawing(withrow);
                 }
-                case 3 -> {
-                    am.checkingBalance();
-                }
-                default -> {
-                    System.out.println("Please Choice one of the options...");
-                }
+                case 3 -> am.checkingBalance();
+
+                default -> System.out.println("Please Choice one of the options...");
+
             }
             System.out.print("Enter 1 if you want to deposit and throw thw amount otherwise press any other number: ");
             a = sc.nextInt();
